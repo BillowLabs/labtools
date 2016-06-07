@@ -1,0 +1,1 @@
+global class LabTools_ApplicationException extends Exception {}

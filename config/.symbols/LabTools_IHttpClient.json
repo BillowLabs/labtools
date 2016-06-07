@@ -1,0 +1,43 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 9,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "LabTools_IHttpClient",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01p3600000Dx1dCAAR",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01p3600000Dx1dCAAR",
+    "methods": [],
+    "name": "LabTools_IHttpClient",
+    "namespace": null,
+    "parentClass": "",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "LabTools_IHttpClient",
+        "references": [],
+        "type": "LabTools_IHttpClient"
+    },
+    "variables": []
+}

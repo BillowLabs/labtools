@@ -1,0 +1,61 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01p3600000Dx1dHAAR",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01p3600000Dx1dHAAR",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 7,
+                "line": 2
+            },
+            "modifiers": [
+                "global",
+                "abstract"
+            ],
+            "name": "Handle",
+            "parameters": [
+                {
+                    "name": "response",
+                    "type": "HttpResponse"
+                }
+            ],
+            "references": [],
+            "returnType": "void",
+            "type": null
+        }
+    ],
+    "name": "LabTools_IHttpResponseHandler",
+    "namespace": null,
+    "parentClass": "",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 18,
+            "line": 1
+        },
+        "modifiers": [
+            "global"
+        ],
+        "name": "LabTools_IHttpResponseHandler",
+        "references": [],
+        "type": "LabTools_IHttpResponseHandler"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 27,
+                "line": 2
+            },
+            "modifiers": [],
+            "name": "response",
+            "references": [],
+            "type": "HttpResponse"
+        }
+    ]
+}

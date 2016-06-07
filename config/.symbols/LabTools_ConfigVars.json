@@ -1,0 +1,137 @@
+{
+    "constructors": [],
+    "externalReferences": [],
+    "id": "01p3600000Dx1cOAAR",
+    "innerClasses": [],
+    "interfaces": [
+        "LabTools_IConfigVars"
+    ],
+    "key": "01p3600000Dx1cOAAR",
+    "methods": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 16,
+                "line": 3
+            },
+            "modifiers": [
+                "global"
+            ],
+            "name": "Read",
+            "parameters": [
+                {
+                    "name": "key",
+                    "type": "String"
+                }
+            ],
+            "references": [],
+            "returnType": "String",
+            "type": null
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 29,
+                "line": 15
+            },
+            "modifiers": [
+                "global"
+            ],
+            "name": "ReadAll",
+            "parameters": [
+                {
+                    "name": "keys",
+                    "type": "LIST"
+                }
+            ],
+            "references": [],
+            "returnType": "Map",
+            "type": null
+        }
+    ],
+    "name": "LabTools_ConfigVars",
+    "namespace": null,
+    "parentClass": "",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 14,
+            "line": 1
+        },
+        "modifiers": [
+            "global"
+        ],
+        "name": "LabTools_ConfigVars",
+        "references": [],
+        "type": "LabTools_ConfigVars"
+    },
+    "variables": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 28,
+                "line": 3
+            },
+            "modifiers": [],
+            "name": "key",
+            "references": [],
+            "type": "String"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 31,
+                "line": 4
+            },
+            "modifiers": [],
+            "name": "results",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 50,
+                "line": 15
+            },
+            "modifiers": [],
+            "name": "keys",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 31,
+                "line": 16
+            },
+            "modifiers": [],
+            "name": "values",
+            "references": [],
+            "type": "LIST"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 23,
+                "line": 22
+            },
+            "modifiers": [],
+            "name": "result",
+            "references": [],
+            "type": "Map"
+        },
+        {
+            "annotations": [],
+            "location": {
+                "column": 29,
+                "line": 23
+            },
+            "modifiers": [],
+            "name": "var",
+            "references": [],
+            "type": "LabTools_ConfigVar__c"
+        }
+    ]
+}

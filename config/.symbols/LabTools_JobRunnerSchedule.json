@@ -1,0 +1,43 @@
+{
+    "constructors": [
+        {
+            "annotations": [],
+            "location": {
+                "column": 9,
+                "line": 2
+            },
+            "modifiers": [
+                "public"
+            ],
+            "name": "LabTools_JobRunnerSchedule",
+            "parameters": [],
+            "references": [],
+            "type": null
+        }
+    ],
+    "externalReferences": [],
+    "id": "01p3600000Dx1e0AAB",
+    "innerClasses": [],
+    "interfaces": [],
+    "key": "01p3600000Dx1e0AAB",
+    "methods": [],
+    "name": "LabTools_JobRunnerSchedule",
+    "namespace": null,
+    "parentClass": "",
+    "properties": [],
+    "tableDeclaration": {
+        "annotations": [],
+        "location": {
+            "column": 27,
+            "line": 1
+        },
+        "modifiers": [
+            "public",
+            "with sharing"
+        ],
+        "name": "LabTools_JobRunnerSchedule",
+        "references": [],
+        "type": "LabTools_JobRunnerSchedule"
+    },
+    "variables": []
+}
