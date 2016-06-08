@@ -42,6 +42,36 @@ private class LabTools_FutureRequest_Tests
 
 
 	@isTest
+	static void WhenAddingHeader_ShouldAddKeyValue()
+	{
+		LabTools_FutureRequest request = new LabTools_FutureRequest();
+
+		Test.startTest();
+		request.AddHeader('One', '1');
+		request.AddHeader('Two', '2');
+		Test.stopTest();
+
+		System.assertEquals(2, request.headers.size());
+		System.assertEquals('1', request.headers.get('One'));
+		System.assertEquals('2', request.headers.get('Two'));
+	}
+
+
+	@isTest
+	static void WhenSettingBody_ShouldSetBody()
+	{
+		LabTools_FutureRequest request = new LabTools_FutureRequest();
+
+		Test.startTest();
+		request.SetBody('One Two Three');
+		Test.stopTest();
+
+		System.assertEquals('One Two Three', request.body);
+	}
+
+
+
+	@isTest
 	static void WhenHandlerDoesntImplementInterface_ShouldThrowException()
 	{
 		LabTools_FutureRequest request = new LabTools_FutureRequest();

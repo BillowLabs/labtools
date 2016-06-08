@@ -2,6 +2,8 @@ global class LabTools_FutureRequest {
 	public String endpoint;
 	public String method;
 	public String handler;
+	public Map<String, String> headers = new Map<String, String>();
+	public String body;
 
 	global void SetHandler(Type type) {
 		Object obj = type.NewInstance();
@@ -20,5 +22,13 @@ global class LabTools_FutureRequest {
 	global void SetEndpoint(String url, String m) {
 		endpoint = url;
 		method = m;
+	}
+
+	global void AddHeader(String key, String value) {
+		headers.put(key, value);
+	}
+
+	global void SetBody(String b) {
+		body = b;
 	}
 }

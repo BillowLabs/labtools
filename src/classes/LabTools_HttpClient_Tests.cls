@@ -7,10 +7,10 @@ private class LabTools_HttpClient_Tests
 	{
 		LabTools_HttpClient client = new LabTools_HttpClient();
 		HttpRequest request = new HttpRequest();
-		request.setEndpoint('http://www.google.com');
+		request.setEndpoint('http://getme.com');
 		request.setMethod('GET');
 
-		Test.setMock(HttpCalloutMock.class, new GoogleHttpCalloutMock());
+		Test.setMock(HttpCalloutMock.class, new GetHttpCalloutMock());
 
 		Test.startTest();
 		HttpResponse response = client.Send(request);
@@ -27,10 +27,12 @@ private class LabTools_HttpClient_Tests
 	{
 		LabTools_HttpClient client = new LabTools_HttpClient();
 		LabTools_FutureRequest request = new LabTools_FutureRequest();
-		request.SetEndpoint('http://www.google.com');
+		request.SetEndpoint('http://getme.com');
 		request.SetHandler(TestResponseHandler.class);
+		request.SetBody('Content');
+		request.AddHeader('One', '1');
 
-		Test.setMock(HttpCalloutMock.class, new GoogleHttpCalloutMock());
+		Test.setMock(HttpCalloutMock.class, new AsyncGetHttpCalloutMock());
 
 		Test.startTest();
 		client.Future(request);
@@ -38,6 +40,7 @@ private class LabTools_HttpClient_Tests
 
 		System.assertEquals(1, TestResponseHandlerCalled);
 	}
+
 
 
 	private static Integer TestResponseHandlerCalled = 0;
@@ -51,10 +54,10 @@ private class LabTools_HttpClient_Tests
 	}
 
 
-	private class GoogleHttpCalloutMock implements HttpCalloutMock {
+	private class GetHttpCalloutMock implements HttpCalloutMock {
 		public HTTPResponse respond(HTTPRequest req) {
 
-			System.assertEquals('http://www.google.com', req.getEndpoint());
+			System.assertEquals('http://getme.com', req.getEndpoint());
 			System.assertEquals('GET', req.getMethod());
 
 			// Create a fake response
@@ -66,7 +69,22 @@ private class LabTools_HttpClient_Tests
 		}
 	}
 
+	private class AsyncGetHttpCalloutMock implements HttpCalloutMock {
+		public HTTPResponse respond(HTTPRequest req) {
 
+			System.assertEquals('http://getme.com', req.getEndpoint());
+			System.assertEquals('GET', req.getMethod());
+			System.assertEquals('1', req.getHeader('One'));
+			System.assertEquals('Content', req.getBody());
+
+			// Create a fake response
+			HttpResponse res = new HttpResponse();
+			res.setBody('Working');
+			res.setStatusCode(200);
+			return res;
+
+		}
+	}
 
 
 }

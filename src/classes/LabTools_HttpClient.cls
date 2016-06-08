@@ -16,6 +16,14 @@ global class LabTools_HttpClient implements LabTools_IHttpClient {
 		request.setEndpoint(fRequest.endpoint);
 		request.setMethod(fRequest.method);
 
+		for(String key : fRequest.headers.keySet()) {
+			request.setHeader(key, fRequest.headers.get(key));
+		}
+
+		if (fRequest.body != null) {
+			request.setBody(fRequest.body);
+		}
+
 		HttpResponse result = (new Http()).send(request);
 
 		if (fRequest.handler == null) return;
