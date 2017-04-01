@@ -9,20 +9,21 @@ global class LabTools_JobWrapper implements Database.Batchable<sObject> {
 	}
 
 	global void finish(Database.BatchableContext BC) {
+		// TODO: Record errors, record start time, record last error, etc.
+		// job.LabTools__LastRunOn__c = now;
+		// job.LabTools__LastError__c = '';
+		// job.LabTools__LastError__c = ex.getMessage();
 	}
 
-	global LabTools_JobWrapper(String n) {
-		name = n;
+
+
+	global LabTools_JobWrapper(String name) {
 		job = (LabTools_IJob)Type.forName(name).NewInstance();
 	}
+	@TestVisible private LabTools_JobWrapper(LabTools_IJob j)
+	{
+		job = j;
+	}
 
-	private String name;
 	private LabTools_IJob job;
 }
-
-
-
-// TODO: Record errors, record start time, record last error, etc.
-// job.LabTools__LastRunOn__c = now;
-// job.LabTools__LastError__c = '';
-// job.LabTools__LastError__c = ex.getMessage();

@@ -1,0 +1,1 @@
+global enum LabTools_EntityStatus { NONE, CREATED, MODIFIED, REMOVED }

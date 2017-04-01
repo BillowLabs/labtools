@@ -3,8 +3,8 @@ global class LabTools_JobRunner implements LabTools_ISchedulable {
 	global void execute() {
 
 		if (now == null) now = DateTime.now();
-		List<LabTools_Runner__c> runners = repository.Echo([
-			SELECT Name, RecurrenceType__c, RecurrenceRate__c, (SELECT Name, Enabled__c FROM Jobs__r)
+		List<LabTools_IEntity> runners = repository.Echo([
+			SELECT Name, RecurrenceType__c, RecurrenceRate__c, LastRunOn__c, (SELECT Name, Enabled__c FROM Jobs__r)
 			FROM LabTools_Runner__c
 			WHERE StartOn__c <= :now
 				AND (NextRunOn__c = NULL OR NextRunOn__c <= :now)
@@ -12,30 +12,38 @@ global class LabTools_JobRunner implements LabTools_ISchedulable {
 			LIMIT 5
 		]);
 
-		for(LabTools_Runner__c runner : runners) {
+		for(LabTools_IEntity runner : runners) {
 
 			DateTime next;
-			if (runner.RecurrenceType__c == 'Hours') {
-				next = now.addHours((Integer)runner.RecurrenceRate__c);
-			} else if (runner.RecurrenceType__c == 'Days') {
-				next = now.addDays((Integer)runner.RecurrenceRate__c);
-			} else if (runner.RecurrenceType__c == 'Months') {
-				next = now.addMonths((Integer)runner.RecurrenceRate__c);
-			} else if (runner.RecurrenceType__c == 'Years') {
-				next = now.addYears((Integer)runner.RecurrenceRate__c);
+			String type = (String)runner.get(LabTools_Runner__c.RecurrenceType__c);
+			Integer rate = ((Decimal)runner.get(LabTools_Runner__c.RecurrenceRate__c)).IntValue();
+
+			if (type == 'Hours') {
+				next = now.addHours(rate);
+			} else if (type == 'Days') {
+				next = now.addDays(rate);
+			} else if (type == 'Months') {
+				next = now.addMonths(rate);
+			} else if (type == 'Years') {
+				next = now.addYears(rate);
 			}
 
-			runner.LastRunOn__c = now;
-			runner.NextRunOn__c = next;
+			runner.set(LabTools_Runner__c.LastRunOn__c, now);
+			runner.set(LabTools_Runner__c.NextRunOn__c, next);
 
-			for(LabTools_Job__c job : runner.Jobs__r) {
-				if (job.Enabled__c == false) continue;
-				Database.executebatch(new LabTools_JobWrapper(job.Name));
+			List<LabTools_IEntity> jobs = runner.getChildren('Jobs__r');
+
+			for(LabTools_IEntity job : jobs) {
+				Boolean isEnabled = (Boolean)job.get(LabTools_Job__c.Enabled__c);
+				if (isEnabled == false) continue;
+
+				String name = (String)job.get(LabTools_Job__c.Name);
+				Database.executebatch(new LabTools_JobWrapper(name));
 			}
 
 		}
 
-		repository.Modify(runners);
+		repository.save();
 	}
 
 

@@ -1,24 +1,61 @@
 @isTest
 private class LabTools_JobRunner_Tests {
 
-	@isTest static void WhenHours_ShouldSetNextRunInHours() {
-		TestRepo repo = new TestRepo('Hours', 2);
-		Datetime now = Datetime.now();
-		LabTools_JobRunner jRunner = new LabTools_JobRunner(repo, now);
+
+	@isTest static void WhenNoJobsExist_ShouldDoNothing() {
+		LabTools_RepositoryMock repo = new LabTools_RepositoryMock();
+		LabTools_JobRunner jRunner = new LabTools_JobRunner(repo, Datetime.now());
 
 		Test.startTest();
 		jRunner.execute();
 		Test.stopTest();
 
-		System.assertEquals(1, repo.EchoCalled);
-		System.assertEquals(1, repo.ModifyCalled);
-		System.assertEquals(1, repo.Modified.size());
-		System.assertEquals(now.addHours(2), ((LabTools_Runner__c)repo.Modified[0]).NextRunOn__c);
+		List<LabTools_IEntity> modified = repo.GetModified(LabTools_Runner__c.SObjectType);
+		System.assertEquals(0, modified.size());
+	}
+
+
+	@isTest static void WhenHours_ShouldSetNextRunInHours() {
+		LabTools_RepositoryMock repo = new LabTools_RepositoryMock();
+		repo
+			.Create(LabTools_Runner__c.SObjectType)
+			.Set(LabTools_Runner__c.RecurrenceType__c, 'Hours')
+			.Set(LabTools_Runner__c.RecurrenceRate__c, 2)
+			.SetStatus(LabTools_EntityStatus.None)
+			.AddChild('Jobs__r',
+				repo.Create(LabTools_Job__c.SObjectType)
+				.Set(LabTools_Job__c.Enabled__c, true)
+				.Set(LabTools_Job__c.Name, 'LabTools_HeartbeatJob')
+				.SetStatus(LabTools_EntityStatus.None)
+			);
+
+		Datetime now = Datetime.now();
+		LabTools_JobRunner jRunner = new LabTools_JobRunner(repo, Datetime.now());
+
+		Test.startTest();
+		jRunner.execute();
+		Test.stopTest();
+
+		List<LabTools_IEntity> modified = repo.GetModified(LabTools_Runner__c.SObjectType);
+		System.assertEquals(1, modified.size());
+		System.assertEquals(now.addHours(2), modified[0].get(LabTools_Runner__c.NextRunOn__c));
 	}
 
 
 	@isTest static void WhenDays_ShouldSetNextRunInDays() {
-		TestRepo repo = new TestRepo('Days', 3);
+		LabTools_RepositoryMock repo = new LabTools_RepositoryMock();
+		repo
+			.Load(LabTools_Runner__c.SObjectType)
+			.Set(LabTools_Runner__c.RecurrenceType__c, 'Days')
+			.Set(LabTools_Runner__c.RecurrenceRate__c, 3)
+			.SetStatus(LabTools_EntityStatus.None)
+			.AddChild('Jobs__r',
+				repo.Load(LabTools_Job__c.SObjectType)
+				.Set(LabTools_Job__c.Enabled__c, true)
+				.Set(LabTools_Job__c.Name, 'LabTools_HeartbeatJob')
+				.SetStatus(LabTools_EntityStatus.None)
+			);
+
 		Datetime now = Datetime.now();
 		LabTools_JobRunner jRunner = new LabTools_JobRunner(repo, now);
 
@@ -26,15 +63,28 @@ private class LabTools_JobRunner_Tests {
 		jRunner.execute();
 		Test.stopTest();
 
-		System.assertEquals(1, repo.EchoCalled);
-		System.assertEquals(1, repo.ModifyCalled);
-		System.assertEquals(1, repo.Modified.size());
-		System.assertEquals(now.addDays(3), ((LabTools_Runner__c)repo.Modified[0]).NextRunOn__c);
+		System.assertEquals(1, repo.SaveCalled);
+
+		List<LabTools_IEntity> modified = repo.GetModified(LabTools_Runner__c.SObjectType);
+		System.assertEquals(1, modified.size());
+		System.assertEquals(now.addDays(3), modified[0].get(LabTools_Runner__c.NextRunOn__c));
 	}
 
 
 	@isTest static void WhenMonths_ShouldSetNextRunInMonths() {
-		TestRepo repo = new TestRepo('Months', 4);
+		LabTools_RepositoryMock repo = new LabTools_RepositoryMock();
+		repo
+			.Load(LabTools_Runner__c.SObjectType)
+			.Set(LabTools_Runner__c.RecurrenceType__c, 'Months')
+			.Set(LabTools_Runner__c.RecurrenceRate__c, 4)
+			.SetStatus(LabTools_EntityStatus.None)
+			.AddChild('Jobs__r',
+				repo.Load(LabTools_Job__c.SObjectType)
+				.Set(LabTools_Job__c.Enabled__c, true)
+				.Set(LabTools_Job__c.Name, 'LabTools_HeartbeatJob')
+				.SetStatus(LabTools_EntityStatus.None)
+			);
+
 		Datetime now = Datetime.now();
 		LabTools_JobRunner jRunner = new LabTools_JobRunner(repo, now);
 
@@ -42,15 +92,28 @@ private class LabTools_JobRunner_Tests {
 		jRunner.execute();
 		Test.stopTest();
 
-		System.assertEquals(1, repo.EchoCalled);
-		System.assertEquals(1, repo.ModifyCalled);
-		System.assertEquals(1, repo.Modified.size());
-		System.assertEquals(now.addMonths(4), ((LabTools_Runner__c)repo.Modified[0]).NextRunOn__c);
+		System.assertEquals(1, repo.SaveCalled);
+
+		List<LabTools_IEntity> modified = repo.GetModified(LabTools_Runner__c.SObjectType);
+		System.assertEquals(1, modified.size());
+		System.assertEquals(now.addMonths(4), modified[0].get(LabTools_Runner__c.NextRunOn__c));
 	}
 
 
 	@isTest static void WhenYears_ShouldSetNextRunInYears() {
-		TestRepo repo = new TestRepo('Years', 5);
+		LabTools_RepositoryMock repo = new LabTools_RepositoryMock();
+		repo
+			.Load(LabTools_Runner__c.SObjectType)
+			.Set(LabTools_Runner__c.RecurrenceType__c, 'Years')
+			.Set(LabTools_Runner__c.RecurrenceRate__c, 5)
+			.SetStatus(LabTools_EntityStatus.None)
+			.AddChild('Jobs__r',
+				repo.Load(LabTools_Job__c.SObjectType)
+				.Set(LabTools_Job__c.Enabled__c, true)
+				.Set(LabTools_Job__c.Name, 'LabTools_HeartbeatJob')
+				.SetStatus(LabTools_EntityStatus.None)
+			);
+
 		Datetime now = Datetime.now();
 		LabTools_JobRunner jRunner = new LabTools_JobRunner(repo, now);
 
@@ -58,12 +121,13 @@ private class LabTools_JobRunner_Tests {
 		jRunner.execute();
 		Test.stopTest();
 
-		System.assertEquals(1, repo.EchoCalled);
-		System.assertEquals(1, repo.ModifyCalled);
-		System.assertEquals(1, repo.Modified.size());
-		System.assertEquals(now.addYears(5), ((LabTools_Runner__c)repo.Modified[0]).NextRunOn__c);
-	}
+		System.assertEquals(1, repo.SaveCalled);
 
+		List<LabTools_IEntity> modified = repo.GetModified(LabTools_Runner__c.SObjectType);
+		System.assertEquals(1, modified.size());
+		System.assertEquals(now.addYears(5), modified[0].get(LabTools_Runner__c.NextRunOn__c));
+	}
+	
 
 	@isTest static void WhenIntegrating_ShouldNotFailRun() {
 		LabTools_Runner__c runner = new LabTools_Runner__c(
@@ -86,39 +150,6 @@ private class LabTools_JobRunner_Tests {
 		Test.startTest();
 		jRunner.execute();
 		Test.stopTest();
-	}
-
-
-
-
-	private class TestRepo extends LabTools_RepositoryTestStub {
-
-		public Integer EchoCalled = 0;
-		public override List<SObject> Echo(List<SObject> values) {
-			EchoCalled++;
-			return new List<LabTools_Runner__c> {
-				new LabTools_Runner__c(
-					RecurrenceType__c = recurrenceType,
-					RecurrenceRate__c = recurrenceRate
-				)
-			};
-		}
-
-		public Integer ModifyCalled = 0;
-		public List<SObject> Modified;
-		public override void Modify(List<SObject> values) {
-			ModifyCalled++;
-			Modified = values;
-		}
-
-
-		public TestRepo(String t, Decimal r) {
-			recurrenceType = t;
-			recurrenceRate = r;
-		}
-
-		private String recurrenceType;
-		private Decimal recurrenceRate;
 	}
 
 }
